@@ -1,51 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace Tdd
-{
-    public class Information
-    {
-        string _name, _lastNamel;
-        public Information(string name , string lastName) { 
+//namespace Tdd
+//{
+//    public sealed class Information
+//    {
+//        string _name, _lastNamel;
+//        private Information() { }
 
-            _name = name;
-            _lastNamel = lastName;
+//        public static Information _information;
 
-        }
+//        public static Information GetInformation()
+//        {
 
-        public static Information _information;
-        public static Information AddInformation(string name, string lastName) { 
-        
-            _information = new Information(name,lastName);
-
-
-            Console.WriteLine(name+" Added . ");
-            return _information;
-        
-        }
-    }
+//            if (_information == null)
+//            {
+//                Console.WriteLine("null");
+//                _information = new Information();
+//            }
+//            else
+//            {
+//                Console.WriteLine("we have");
+//            }
 
 
-    public class Main
-    {
+//            return _information;
+
+//        }
+
+//        public string AddInformation(string name, string lastName)
+//        {
+//            Console.WriteLine(name + " Added . ");
+//            return name;
+//        }
+//    }
+
+
+//    public class Main
+//    {
+
+
+//        string name = "ali";
+//        string lastname = "gholami";
+
+//        string name2 = "mamad";
+//        string lastname2 = "hasani";
+
+//        string name3 = "josef";
+//        string lastname3 = "oohh";
+
+//        Information information = Information.GetInformation();
+//        Information information2 = Information.GetInformation();
+
+
+//        information.AddInformation(name, lastname);
+//        information2.AddInformation(name2, lastname2);
+
        
 
-        static string name = "ali";
-        static string lastname = "gholami";
-
-        static string name2 = "mamad";
-        static string lastname2 = "hasani";
-
-        Information information = Information.AddInformation(name, lastname);
-        Information information2 = Information.AddInformation(name2, lastname2);
-
-        
+//    }
 
 
-    }
-
-
-}
+//}
