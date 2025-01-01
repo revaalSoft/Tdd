@@ -1,97 +1,133 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Xml.Linq;
-using static Program;
 
 class Program
 {
     static void Main(string[] args)
     {
         Console.WriteLine("Start");
+        var message = new Message();
+        var viewer1 = new Viewer1(1, "ali");
+        var viewer2 = new Viewer2(0, "hasan");
 
-        FillName fillName = new FillName();
+        message.AddMessage(viewer1);
+        message.AddMessage(viewer2);
+        message.NotificationMesssage();
 
-
-        People people = new People();
-
-        fillName.GetDaysFromYear(28);
-        people.AddUser(fillName);
-        fillName.GetDaysFromYear(26);
-        people.AddAdmin(fillName);
 
         Console.WriteLine("End");
     }
 
-    public class People
+
+    public interface IViewer
     {
-        public void AddAdmin(FillName fillName)
+        void Update(IMessage _iMessage);
+        void ShowStatus();
+    }
+
+
+    public interface IMessage
+    {
+        public void RemoveMessage(IViewer viewer);
+        public void AddMessage(IViewer viewer);
+        public void NotificationMesssage();
+    }
+
+    public class Message : IMessage
+    {
+        private List<IViewer> _viewer = new List<IViewer>();
+        string _username;
+
+        public void NotificationMesssage()
         {
-            Admin admin = new Admin(fillName);
-            admin.addField("age");
+
+
+            foreach (var viewer in _viewer)
+            {
+                viewer.Update(this);
+                ShowStatus(viewer);
+            }
         }
 
-        public void AddUser(FillName fillName)
+        public void ShowStatus(IViewer viewer)
         {
-            User user = new User(fillName);
-            user.addField("age");
+            viewer.ShowStatus();
+        }
+
+        public void AddMessage(IViewer viewer)
+        {
+            _viewer.Add(viewer);
+        }
+
+        public void RemoveMessage(IViewer viewer)
+        {
+            _viewer.Remove(viewer);
         }
 
     }
 
-
-    public interface Database
+    public class Viewer1 : IViewer
     {
-        public void addField(string name);
-
-    }
-
-
-    public class FillName()
-    {
-        int days = 0;
-        public void GetDaysFromYear(int age)
+        int _state;
+        string _username;
+        public Viewer1(int state, string username)
         {
-            days = age * 365;
+            _state = state;
+            _username = username;
         }
+        public void Update(IMessage _iMessage)
+        {
+            Console.WriteLine("Message update For " + _username);
+            if (_state == 0)
+            {
 
-        public int returnDays()
-        {
-            return days;
-        }
-    }
+                Console.WriteLine("Message Remove From User = " + _username);
 
-    public class User : Database
-    {
-        public FillName _fillname;
-        public string _name;
-        public User(FillName fillName)
-        {
-            this._fillname = fillName;
+            }
+            else if (_state == 1)
+            {
+
+                Console.WriteLine("Message Add From User = " + _username);
+
+            }
         }
-        public void addField(string name)
+        public void ShowStatus()
         {
-            this._name = name;
-            int value = _fillname.returnDays();
-            Console.WriteLine(name + " added in User table and days birthday Is : " + value);
+            Console.WriteLine(_username + " Message Seen");
         }
 
 
     }
-    public class Admin : Database
-    {
-        public FillName _fillname;
-        public string _name;
-        public Admin(FillName fillName)
-        {
-            this._fillname = fillName;
-        }
-        public void addField(string name)
-        {
-            this._name = name;
-            int value = _fillname.returnDays();
-            Console.WriteLine(name + " added in Admin table and days birthday Is : " + value);
-        }
 
+    public class Viewer2 : IViewer
+    {
+        int _state;
+        string _username;
+        public Viewer2(int state, string username)
+        {
+            _state = state;
+            _username = username;
+        }
+        public void Update(IMessage _iMessage)
+        {
+            Console.WriteLine("Message update For " + _username);
+            if (_state == 0)
+            {
+
+                Console.WriteLine("Message Remove From User = " + _username);
+
+            }
+            else if (_state == 1)
+            {
+
+                Console.WriteLine("Message Add From User = " + _username);
+
+            }
+        }
+        public void ShowStatus()
+        {
+            Console.WriteLine(_username + " Message Seen");
+        }
     }
 
 }

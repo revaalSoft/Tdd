@@ -3,25 +3,20 @@
 
 //class Program
 //{
-//    static void Main(string[] args)
-//    {
-//        Console.WriteLine("Start");
-//        var message = new Message();
-//        var viewer1 = new Viewer1(1, "ali");
-//        var viewer2 = new Viewer2(0, "hasan");
+//static void Main(string[] args)
+//{
+//    Console.WriteLine("Start");
+//    var message = new Message();
+//    var viewer1 = new Viewer1(1, "ali");
+//    var viewer2 = new Viewer2(0, "hasan");
 
-//        message.AddMessage(viewer1);
-//        message.AddMessage(viewer2);
-//        message.NotificationMesssage();
-//        //     message.ShowUserName(true);
-
-//        Console.Write("/////////////////////////// \n");
+//    message.AddMessage(viewer1);
+//    message.AddMessage(viewer2);
+//    message.NotificationMesssage();
 
 
-//        //      message.ShowUserName(false);
-
-//        Console.WriteLine("End");
-//    }
+//    Console.WriteLine("End");
+//}
 
 
 //    public interface IViewer
