@@ -8,15 +8,15 @@
 //    {
 //        Console.WriteLine("Start");
 
-//        Tax tax = new Tax();
-//        tax.AddEachElement("Price", 5000);
+//        FactorElements factor = new Factor();
 
-//        DiscountPencil discountPencil = new DiscountPencil(new Price());
-//        discountPencil.AddEachElement("Sticker", 2000);
-
-//        DiscountWatch discountWatch = new DiscountWatch(new Price());
-//        discountWatch.AddEachElement("Sticker", 100000);
-
+//        factor = new Tax(factor);
+//        factor.AddEachElement("Tax", 50000);
+//        factor = new Price(factor);
+//        factor.AddEachElement("Price", 40000);
+//        factor = new Tranportation(factor);
+//        factor.AddEachElement("Tranportation", 60000);
+//        factor.Description();
 //        Console.WriteLine("End");
 //    }
 
@@ -24,74 +24,86 @@
 //    public abstract class FactorElements
 //    {
 //        public abstract void AddEachElement(string featureName, int value);
+//        public abstract string Description();
 //    }
 
 
-//    public class Tax() : FactorElements
+//    public class Factor : FactorElements
 //    {
 //        public override void AddEachElement(string featureName, int value)
 //        {
-//            Console.WriteLine($"{featureName} Added In Tax With Value : " + value);
-//        }
-//    }
 
-//    public class Price() : FactorElements
-//    {
-//        public override void AddEachElement(string featureName, int value)
+//        }
+
+//        public override string Description()
 //        {
-//            Console.WriteLine($"{featureName} Added In Price With Value : " + value);
+//            return "Factor :";
 //        }
+
 //    }
 
 
-//    public abstract class Discount : FactorElements
+//    public abstract class FactorElementsDecorator : FactorElements
 //    {
 //        protected FactorElements _factorElements;
-//        public override void AddEachElement(string featureName, int value)
-//        {
-//            Console.WriteLine($"{featureName} Added In Discount With Value : " + value);
-//        }
-
-//        public Discount(FactorElements factorElements)
-//        {
-//            this._factorElements = factorElements;
-//        }
-
-//        public void SetFactoryElement(FactorElements factorElements)
+//        public FactorElementsDecorator(FactorElements factorElements)
 //        {
 //            this._factorElements = factorElements;
 //        }
 //    }
 
 
-//    public class DiscountPencil : Discount
+//    public class Tax : FactorElementsDecorator
 //    {
-//        public DiscountPencil(FactorElements factorElements) : base(factorElements)
-//        {
-
-
-//        }
+//        public Tax(FactorElements factorElements) : base(factorElements) { }
 //        public override void AddEachElement(string featureName, int value)
 //        {
-//            Console.WriteLine("\n Its Pencil Discount");
-//            base.AddEachElement(featureName, value);
+//            Console.WriteLine($"{featureName} Added With Value : " + value);
+
+//        }
+
+//        public override string Description()
+//        {
+//            string desc = _factorElements.Description() + " Tax ";
+//            Console.WriteLine(desc);
+//            return desc;
+//        }
+//    }
+
+//    public class Price : FactorElementsDecorator
+//    {
+//        public Price(FactorElements factorElements) : base(factorElements) { }
+//        public override void AddEachElement(string featureName, int value)
+//        {
+//            Console.WriteLine($"{featureName} Added With Value : " + value);
+//        }
+
+//        public override string Description()
+//        {
+//            string desc = _factorElements.Description() + " Price ";
+//            Console.WriteLine(desc);
+//            return desc;
+
+//        }
+//    }
+
+//    public class Tranportation : FactorElementsDecorator
+//    {
+//        public Tranportation(FactorElements factorElements) : base(factorElements) { }
+//        public override void AddEachElement(string featureName, int value)
+//        {
+//            Console.WriteLine($"{featureName} Added  With Value : " + value);
+//        }
+
+//        public override string Description()
+//        {
+//            string desc = _factorElements.Description() + " Transportation ";
+//            Console.WriteLine(desc);
+//            return desc;
 //        }
 //    }
 
 
-//    public class DiscountWatch : Discount
-//    {
-//        public DiscountWatch(FactorElements factorElements) : base(factorElements)
-//        {
-
-
-//        }
-//        public override void AddEachElement(string featureName, int value)
-//        {
-//            Console.WriteLine("\n Its Watch Discount");
-//            base.AddEachElement(featureName, value);
-//        }
-//    }
 //}
 
 

@@ -7,23 +7,27 @@
 //    {
 //        Console.WriteLine("Start");
 //        var message = new Message();
-//        var viewer1 = new Viewer1();
-//        var viewer2 = new Viewer2();
+//        var viewer1 = new Viewer1(1, "ali");
+//        var viewer2 = new Viewer2(0, "hasan");
 
 //        message.AddMessage(viewer1);
-//        message.NotificationMesssage(0, "ali");
-//        message.ShowUserName(true);
-
 //        message.AddMessage(viewer2);
-//        message.NotificationMesssage(1, "hasan");
-//        message.ShowUserName(false);
+//        message.NotificationMesssage();
+//        //     message.ShowUserName(true);
+
+//        Console.Write("/////////////////////////// \n");
+
+
+//        //      message.ShowUserName(false);
+
 //        Console.WriteLine("End");
 //    }
 
 
 //    public interface IViewer
 //    {
-//        void Update(IMessage _iMessage, int State, string username);
+//        void Update(IMessage _iMessage);
+//        void ShowStatus();
 //    }
 
 
@@ -31,42 +35,28 @@
 //    {
 //        public void RemoveMessage(IViewer viewer);
 //        public void AddMessage(IViewer viewer);
-//        public void NotificationMesssage(int state, string username);
+//        public void NotificationMesssage();
 //    }
 
 //    public class Message : IMessage
 //    {
 //        private List<IViewer> _viewer = new List<IViewer>();
-
 //        string _username;
-//        public void NotificationMesssage(int state, string username)
+
+//        public void NotificationMesssage()
 //        {
-//            _username = username;
-//            Console.WriteLine("Message update");
+
 
 //            foreach (var viewer in _viewer)
 //            {
-//                viewer.Update(this, state, username);
+//                viewer.Update(this);
+//                ShowStatus(viewer);
 //            }
 //        }
 
-//        public void ShowUserName(bool IsOffline)
+//        public void ShowStatus(IViewer viewer)
 //        {
-
-
-//            if (IsOffline)
-//            {
-
-//                Console.WriteLine(_username + " isOffline ");
-
-//            }
-//            else
-//            {
-
-//                Console.WriteLine(_username + " isOnline ");
-
-//            }
-
+//            viewer.ShowStatus();
 //        }
 
 //        public void AddMessage(IViewer viewer)
@@ -83,22 +73,65 @@
 
 //    public class Viewer1 : IViewer
 //    {
-//        public void Update(IMessage _iMessage, int State, string username)
+//        int _state;
+//        string _username;
+//        public Viewer1(int state, string username)
 //        {
-//            if (State == 0)
+//            _state = state;
+//            _username = username;
+//        }
+//        public void Update(IMessage _iMessage)
+//        {
+//            Console.WriteLine("Message update For " + _username);
+//            if (_state == 0)
 //            {
 
-//                Console.WriteLine("Message Remove From User = " + username);
+//                Console.WriteLine("Message Remove From User = " + _username);
+
+//            }
+//            else if (_state == 1)
+//            {
+
+//                Console.WriteLine("Message Add From User = " + _username);
 
 //            }
 //        }
+//        public void ShowStatus()
+//        {
+//            Console.WriteLine(_username + " Message Seen");
+//        }
+
+
 //    }
 
 //    public class Viewer2 : IViewer
 //    {
-//        public void Update(IMessage _iMessage, int State, string username)
+//        int _state;
+//        string _username;
+//        public Viewer2(int state, string username)
 //        {
-//            Console.WriteLine("Message Add From User = " + username);
+//            _state = state;
+//            _username = username;
+//        }
+//        public void Update(IMessage _iMessage)
+//        {
+//            Console.WriteLine("Message update For " + _username);
+//            if (_state == 0)
+//            {
+
+//                Console.WriteLine("Message Remove From User = " + _username);
+
+//            }
+//            else if (_state == 1)
+//            {
+
+//                Console.WriteLine("Message Add From User = " + _username);
+
+//            }
+//        }
+//        public void ShowStatus()
+//        {
+//            Console.WriteLine(_username + " Message Seen");
 //        }
 //    }
 

@@ -1,62 +1,99 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Transactions;
 using System.Xml.Linq;
 using static Program;
 
 class Program
 {
-    static void Main(string[] args){
-
-         string name = "ali";
-         string lastname = "gholami";
-
-         string name2 = "mamad";
-         string lastname2 = "hasani";
-
-        string name3 = "josef";
-        string lastname3 = "oohh";
-
-        Information information = Information.GetInformation();
-        Information information2 = Information.GetInformation();
-
-
-        information.AddInformation(name, lastname);
-        information2.AddInformation(name2, lastname2);
-
-
-    }
-
-
-    public sealed class Information
+    static void Main(string[] args)
     {
-        string _name, _lastNamel;
-        private Information(){}
+        Console.WriteLine("Start");
 
-        public static Information _information;
+        FillName fillName = new FillName();
 
-        public static Information GetInformation() {
 
-            if (_information == null) {
-                Console.WriteLine("null");
-                _information = new Information();
-            }
-            else
-            {
-                Console.WriteLine("we have");
-            }
+        People people = new People();
 
-            
-            return _information;
+        fillName.GetDaysFromYear(28);
+        people.AddUser(fillName);
+        fillName.GetDaysFromYear(26);
+        people.AddAdmin(fillName);
 
+        Console.WriteLine("End");
+    }
+
+    public class People
+    {
+        public void AddAdmin(FillName fillName)
+        {
+            Admin admin = new Admin(fillName);
+            admin.addField("age");
         }
 
-        public string AddInformation(string name, string lastName)
+        public void AddUser(FillName fillName)
         {
-            Console.WriteLine(name + " Added . ");
-            return name;
+            User user = new User(fillName);
+            user.addField("age");
+        }
+
+    }
+
+
+    public interface Database
+    {
+        public void addField(string name);
+
+    }
+
+
+    public class FillName()
+    {
+        int days = 0;
+        public void GetDaysFromYear(int age)
+        {
+            days = age * 365;
+        }
+
+        public int returnDays()
+        {
+            return days;
         }
     }
+
+    public class User : Database
+    {
+        public FillName _fillname;
+        public string _name;
+        public User(FillName fillName)
+        {
+            this._fillname = fillName;
+        }
+        public void addField(string name)
+        {
+            this._name = name;
+            int value = _fillname.returnDays();
+            Console.WriteLine(name + " added in User table and days birthday Is : " + value);
+        }
+
+
+    }
+    public class Admin : Database
+    {
+        public FillName _fillname;
+        public string _name;
+        public Admin(FillName fillName)
+        {
+            this._fillname = fillName;
+        }
+        public void addField(string name)
+        {
+            this._name = name;
+            int value = _fillname.returnDays();
+            Console.WriteLine(name + " added in Admin table and days birthday Is : " + value);
+        }
+
+    }
+
 }
 
 
