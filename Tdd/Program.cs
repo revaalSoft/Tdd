@@ -1,136 +1,112 @@
 ﻿using System;
-using System.Xml.Linq;
+using System.Collections.Generic;
+
 
 class Program
 {
     static void Main(string[] args)
     {
         Console.WriteLine("Start");
-        var message = new Message();
-        var viewer1 = new Viewer1(1, "ali");
-        var viewer2 = new Viewer2(0, "hasan");
 
-        message.AddMessage(viewer1);
-        message.AddMessage(viewer2);
-        message.NotificationMesssage();
 
+        var csvDataSource = new CsvAdapter(new CsvDataSource());
+        var sqlDataSource = new SqlAdapter(new SqlDataSource());
+        var restApiDataSource = new RestApiAdapter(new RestApiDataSource());
+
+
+        List<IDataSource> dataSources = new List<IDataSource> { csvDataSource, sqlDataSource, restApiDataSource };
+
+
+        foreach (var dataSource in dataSources)
+        {
+            var data = dataSource.GetData();
+            Console.WriteLine(data);
+        }
 
         Console.WriteLine("End");
     }
 
 
-    public interface IViewer
+    public interface IDataSource
+{
+    string GetData();
+}
+
+
+public class CsvDataSource
+{
+    public string ReadCsvData()
     {
-        void Update(IMessage _iMessage);
-        void ShowStatus();
+        return "Data from CSV";
     }
+}
 
 
-    public interface IMessage
+public class SqlDataSource
+{
+    public string ExecuteSqlQuery()
     {
-        public void RemoveMessage(IViewer viewer);
-        public void AddMessage(IViewer viewer);
-        public void NotificationMesssage();
+        return "Data from SQL";
     }
+}
 
-    public class Message : IMessage
+public class RestApiDataSource
+{
+    public string FetchApiData()
     {
-        private List<IViewer> _viewer = new List<IViewer>();
-        string _username;
-
-        public void NotificationMesssage()
-        {
-
-
-            foreach (var viewer in _viewer)
-            {
-                viewer.Update(this);
-                ShowStatus(viewer);
-            }
-        }
-
-        public void ShowStatus(IViewer viewer)
-        {
-            viewer.ShowStatus();
-        }
-
-        public void AddMessage(IViewer viewer)
-        {
-            _viewer.Add(viewer);
-        }
-
-        public void RemoveMessage(IViewer viewer)
-        {
-            _viewer.Remove(viewer);
-        }
-
+        return "Data from API";
     }
-
-    public class Viewer1 : IViewer
-    {
-        int _state;
-        string _username;
-        public Viewer1(int state, string username)
-        {
-            _state = state;
-            _username = username;
-        }
-        public void Update(IMessage _iMessage)
-        {
-            Console.WriteLine("Message update For " + _username);
-            if (_state == 0)
-            {
-
-                Console.WriteLine("Message Remove From User = " + _username);
-
-            }
-            else if (_state == 1)
-            {
-
-                Console.WriteLine("Message Add From User = " + _username);
-
-            }
-        }
-        public void ShowStatus()
-        {
-            Console.WriteLine(_username + " Message Seen");
-        }
-
-
-    }
-
-    public class Viewer2 : IViewer
-    {
-        int _state;
-        string _username;
-        public Viewer2(int state, string username)
-        {
-            _state = state;
-            _username = username;
-        }
-        public void Update(IMessage _iMessage)
-        {
-            Console.WriteLine("Message update For " + _username);
-            if (_state == 0)
-            {
-
-                Console.WriteLine("Message Remove From User = " + _username);
-
-            }
-            else if (_state == 1)
-            {
-
-                Console.WriteLine("Message Add From User = " + _username);
-
-            }
-        }
-        public void ShowStatus()
-        {
-            Console.WriteLine(_username + " Message Seen");
-        }
-    }
-
 }
 
 
 
+
+public class CsvAdapter : IDataSource
+{
+    private readonly CsvDataSource _csvDataSource;
+
+    public CsvAdapter(CsvDataSource csvDataSource)
+    {
+        _csvDataSource = csvDataSource;
+    }
+
+    public string GetData()
+    {
+        return _csvDataSource.ReadCsvData();
+    }
+}
+
+public class SqlAdapter : IDataSource
+{
+    private readonly SqlDataSource _sqlDataSource;
+
+    public SqlAdapter(SqlDataSource sqlDataSource)
+    {
+        _sqlDataSource = sqlDataSource;
+    }
+
+    public string GetData()
+    {
+        return _sqlDataSource.ExecuteSqlQuery();
+    }
+}
+
+
+public class RestApiAdapter : IDataSource
+{
+    private readonly RestApiDataSource _restApiDataSource;
+
+    public RestApiAdapter(RestApiDataSource restApiDataSource)
+    {
+        _restApiDataSource = restApiDataSource;
+    }
+
+    public string GetData()
+    {
+        return _restApiDataSource.FetchApiData();
+    }
+}
+
+
+
+}

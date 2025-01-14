@@ -12,8 +12,8 @@
 
 //        File file = new File();
 //        AccessFile access = new AccessFile(file);
-//        access.ReadData(5);
-//        access.ReadData(6);
+//        access.ReadData("admin");
+//        access.ReadData("ali");
 
 //        Console.WriteLine("End");
 //    }
@@ -22,15 +22,15 @@
 
 //    public interface IFile
 //    {
-//        void ReadData(int id);
+//        void ReadData(string username);
 //    }
 
 
 //    public class File : IFile
 //    {
-//        public void ReadData(int id)
+//        public void ReadData(string username)
 //        {
-//            Console.WriteLine("hello user With id " + id + " you have Access To Read File");
+//            Console.WriteLine("hello " + username + " you have Access To Read File");
 //        }
 //    }
 
@@ -41,22 +41,21 @@
 //        {
 //            _file = file;
 //        }
-//        public void ReadData(int id)
+//        public void ReadData(string username)
 //        {
-//            if (HaveAccess(id))
+//            if (HaveAccess(username))
 //            {
-
-//                _file.ReadData(id);
+//                _file.ReadData(username);
 //            }
 //            else
 //            {
-//                Console.WriteLine("You have not Permission user with id : " + id);
+//                Console.WriteLine("hello " + username + " you have Not Access To Read File");
 //            }
 //        }
 
-//        private bool HaveAccess(int id)
+//        private bool HaveAccess(string username)
 //        {
-//            if (id == 6)
+//            if (username == "admin")
 //            {
 //                return true;
 //            }
