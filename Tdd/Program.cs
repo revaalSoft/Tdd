@@ -6,107 +6,78 @@ class Program
 {
     static void Main(string[] args)
     {
+
         Console.WriteLine("Start");
+        User admin = new User("Admin", Role.Admin);
+        User regularUser = new User("ali", Role.RegularUser);
 
 
-        var csvDataSource = new CsvAdapter(new CsvDataSource());
-        var sqlDataSource = new SqlAdapter(new SqlDataSource());
-        var restApiDataSource = new RestApiAdapter(new RestApiDataSource());
+
+        IDatabase proxyDatabase = new ProxyDatabase();
 
 
-        List<IDataSource> dataSources = new List<IDataSource> { csvDataSource, sqlDataSource, restApiDataSource };
+        proxyDatabase.GetData(admin);
+        proxyDatabase.GetData(regularUser);
 
 
-        foreach (var dataSource in dataSources)
-        {
-            var data = dataSource.GetData();
-            Console.WriteLine(data);
-        }
 
         Console.WriteLine("End");
     }
+}
 
-
-    public interface IDataSource
+public interface IDatabase
 {
-    string GetData();
+   string GetData(User user);
 }
 
-
-public class CsvDataSource
+public class RealDatabase : IDatabase
 {
-    public string ReadCsvData()
+    public string GetData(User user)
     {
-        return "Data from CSV";
+        return "";
     }
 }
 
 
-public class SqlDataSource
+public class ProxyDatabase : IDatabase
 {
-    public string ExecuteSqlQuery()
+    private readonly RealDatabase _realDatabase = new RealDatabase();
+
+    public string GetData(User user)
     {
-        return "Data from SQL";
+        if (user.Role == Role.Admin)
+        {
+            Console.WriteLine("Access All");
+            return "all";
+        }
+        else 
+        {
+            Console.WriteLine("Access Public");
+            return "public";
+        }
+
     }
 }
 
-public class RestApiDataSource
+
+public enum Role
 {
-    public string FetchApiData()
-    {
-        return "Data from API";
-    }
+    Admin,
+    RegularUser,
 }
 
 
-
-
-public class CsvAdapter : IDataSource
+public class User
 {
-    private readonly CsvDataSource _csvDataSource;
+    public string Name { get; set; }
+    public Role Role { get; set; }
 
-    public CsvAdapter(CsvDataSource csvDataSource)
+    public User(string name, Role role)
     {
-        _csvDataSource = csvDataSource;
-    }
-
-    public string GetData()
-    {
-        return _csvDataSource.ReadCsvData();
-    }
-}
-
-public class SqlAdapter : IDataSource
-{
-    private readonly SqlDataSource _sqlDataSource;
-
-    public SqlAdapter(SqlDataSource sqlDataSource)
-    {
-        _sqlDataSource = sqlDataSource;
-    }
-
-    public string GetData()
-    {
-        return _sqlDataSource.ExecuteSqlQuery();
-    }
-}
-
-
-public class RestApiAdapter : IDataSource
-{
-    private readonly RestApiDataSource _restApiDataSource;
-
-    public RestApiAdapter(RestApiDataSource restApiDataSource)
-    {
-        _restApiDataSource = restApiDataSource;
-    }
-
-    public string GetData()
-    {
-        return _restApiDataSource.FetchApiData();
+        Name = name;
+        Role = role;
     }
 }
 
 
 
-}
